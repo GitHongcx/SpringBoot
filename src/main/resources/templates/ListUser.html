@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+                xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+    <script src="/webjars/jquery/jquery.min.js" ></script>
+</head>
+<body style="text-align: center">
+    <h3>用户管理</h3>
+    <h2 shiro:hasAnyRoles="userAdmin,userAdd"><a th:href="@{/userInfo/addUser}"> 用户添加</a></h2>
+    <table th:align="center" th:border="1">
+        <thead>
+            <tr>
+                <th width="10%">用户编号</th>
+                <th width="10%">用户名</th>
+                <th width="10%">密码</th>
+                <th width="10%">性别</th>
+                <th width="10%">年龄</th>
+                <th width="20%">邮箱</th>
+                <th width="20%">手机号码</th>
+                <th width="20%" shiro:hasAnyRoles="userAdmin,userUpdate">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user:${user.getResult()}"></span></td>
+                <td><span th:text="${user.id}"></span> </td>
+                <td><span th:text="${user.userName}"></span></td>
+                <td><span th:text="${user.password}"></span></td>
+                <td><span th:text="${user.sex}"></span></td>
+                <td><span th:text="${user.age}"></span></td>
+                <td><span th:text="${user.email}"></span></td>
+                <td><span th:text="${user.mobile}"></span></td>
+                <td shiro:hasAnyRoles="userAdmin,userUpdate"><a th:href="@{/userInfo/updateUser/}+${user.id}">编辑</a>
+                    <a th:href="@{/userInfo/deleteUser/}+${user.id}">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div align="center" style="margin-top: 2%">
+        总共<a th:text="${user.pages}"/>页|
+        第<a th:text="${user.getPageNum()+1}"/>页|
+        <a th:href="@{/userInfo/index(pageIndex=0)}" class="f">首页</a>|
+        <a th:href="@{/userInfo/index(pageIndex=${user.getPageNum()-1})}" class="f">上一页</a>|
+        <a th:href="@{/userInfo/index(pageIndex=${user.getPageNum()+1})}" class="la">下一页</a>|
+        <a th:href="@{/userInfo/index(pageIndex=${user.getPages()})}" class="la">尾页</a>
+        <input type="hidden" id="first" th:value="${user.getPageNum()+1}"/>
+        <input type="hidden" id="last" th:value="${user.getPages()}"/>
+        <br/>
+        <br/>
+        <a th:href="@{/userInfo/logout}">退出</a>
+    </div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        pageNum = $("#first").val();
+        lastPage = $("#last").val();
+        if(lastPage == pageNum){
+            $('.la').removeAttr('href');
+            $('.la').removeAttr('onclick');
+        }else{
+            if (pageNum == 1){
+                $('.f').removeAttr('href');
+                $('.f').removeAttr('onclick');
+            } else if (pageNum == 1){
+                $('.f').attr('','href');
+                $('.f').attr('','onclick');
+            }
+            $('.la').attr('','href');
+            $('.la').attr('','onclick');
+        }
+    })
+</script>
+</html>

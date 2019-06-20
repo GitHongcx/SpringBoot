@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <script src="/webjars/jquery/jquery.min.js" ></script>
+</head>
+<body style="text-align: center">
+    <h3>用户登录</h3>
+    <h4 style="color: red" th:text="${msg}"></h4>
+    <form action="/userInfo/loginUser" method="post">
+        <input type="text" name="username"><br/>
+        <input type="password" name="password"><br/>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
